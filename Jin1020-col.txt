@@ -1,0 +1,45 @@
+import random
+import streamlit as st
+
+def negotiation_simulator():
+    st.title("🔹 AI Negotiation Simulator: Labor Union Negotiation 🔹")
+    st.write("You are the CEO of a board game company. You must negotiate with the labor union representative to resolve the company's financial crisis.")
+    
+    agreed = False
+    attempts = 0
+    
+    while not agreed and attempts < 5:
+        st.subheader("📌 Available Actions:")
+        choice = st.radio("Choose your action:", [
+            "Propose laying off 30 employees.",
+            "Propose a 10% salary reduction for all employees.",
+            "Propose laying off 10 low-performing employees + salary reduction.",
+            "Offer salary recovery: 5% restoration at $30M profit, additional 5% at $50M profit.",
+            "Terminate negotiations and enforce layoffs."])
+        
+        if st.button("Confirm Choice"):
+            if choice == "Propose laying off 30 employees.":
+                st.write("🔸 Union Representative: \"Laying off 30 employees is absolutely unacceptable! Propose an alternative.\"")
+            elif choice == "Propose a 10% salary reduction for all employees.":
+                if random.random() > 0.7:
+                    st.success("✅ The union representative has agreed to the 10% salary reduction. Negotiation successful!")
+                    agreed = True
+                else:
+                    st.write("🔸 Union Representative: \"The employees strongly oppose this. Additional compensation is required.\"")
+            elif choice == "Propose laying off 10 low-performing employees + salary reduction.":
+                st.write("🔹 Union Representative: \"We may consider laying off 10 low-performing employees, but salary reduction remains difficult. Additional conditions are needed.\"")
+            elif choice == "Offer salary recovery: 5% restoration at $30M profit, additional 5% at $50M profit.":
+                st.write("🔹 Union Representative: \"Adding salary recovery terms is a step forward, but employees need stronger guarantees to agree.\"")
+            elif choice == "Terminate negotiations and enforce layoffs.":
+                st.error("❌ Negotiations have failed. The company enforces the layoff of 30 employees.")
+                break
+        
+        attempts += 1
+    
+    if agreed:
+        st.success("🎉 Negotiation successful! You have reached an agreement with the labor union.")
+    elif attempts >= 5:
+        st.error("⏳ Time has expired. Negotiations failed. The company proceeds with layoffs.")
+
+if __name__ == "__main__":
+    negotiation_simulator()
